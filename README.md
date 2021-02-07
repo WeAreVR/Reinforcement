@@ -13,6 +13,10 @@ stable-baselines3 DQN in a 2-way single intersection: heller ingen gui og kører
 
 Den gemmer information efter ikke i reinforce mappen med i mappen før, ray_results, hvorfor ved jeg ikke
 
+2 way køre til at starte med men laver denne fejl til sidst
+FileNotFoundError: [Errno 2] No such file or directory: 'outputs/2way-single-intersection/dqn_run1.csv'
+
+
 undersøg
 WARNING:tensorflow:From C:\Users\tobia\anaconda3\envs\gpu_test\lib\site-packages\tensorflow\python\compat\v2_compat.py:96: disable_resource_variables
 (from tensorflow.python.ops.variable_scope) is deprecated and will be removed in a future version.
