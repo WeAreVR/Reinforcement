@@ -1,7 +1,7 @@
 # Reinforcement
 sumo-rl https://github.com/LucasAlegre/sumo-rl
 
-Når RLlib A3C multiagent in a 4x4 grid: køres åbner der ikke nogen gui
+Når RLlib A3C multiagent in a 4x4 grid: Køres nu med GUI
 
 skal køres fra første folder indtil videre, ligges ind i filen kør.py, hvis ikke = ModuleNotFoundError: No module named 'sumo_rl.environment'
 
@@ -9,7 +9,7 @@ Single intersection skaber nederstående fejl
 ModuleNotFoundError: No module named 'tensorflow.contrib'- skal vidst bruge tensorflow >2.0
 
 
-stable-baselines3 DQN in a 2-way single intersection: heller ingen gui og kører vidst kun på cpu
+stable-baselines3 DQN in a 2-way single intersection: Køres nu med GUI, men kører vidst kun på cpu
 
 Den gemmer information efter ikke i reinforce mappen med i mappen før, ray_results, hvorfor ved jeg ikke
 
