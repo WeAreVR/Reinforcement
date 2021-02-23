@@ -1,0 +1,15 @@
+{
+  "lr": 0.001,
+  "multiagent": {
+    "policies": {
+      "0": [
+        "<class 'ray.rllib.policy.tf_policy_template.A3CTFPolicy'>",
+        "Box(0.0, 1.0, (10,), float32)",
+        "Discrete(2)",
+        {}
+      ]
+    },
+    "policy_mapping_fn": "<function <lambda> at 0x000001B0B69BC940>"
+  },
+  "no_done_at_end": true
+}
