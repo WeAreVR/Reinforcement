@@ -27,14 +27,14 @@ if __name__ == '__main__':
         prs.add_argument("-d", dest="decay", type=float, default=1.0, required=False, help="Epsilon decay.\n")
         prs.add_argument("-mingreen", dest="min_green", type=int, default=10, required=False, help="Minimum green time.\n")
         prs.add_argument("-maxgreen", dest="max_green", type=int, default=30, required=False, help="Maximum green time.\n")
-        prs.add_argument("-gui", action="store_true", default=False, help="Run with visualization on SUMO.\n")
+        prs.add_argument("-gui", action="store_true", default=True, help="Run with visualization on SUMO.\n")
         prs.add_argument("-fixed", action="store_true", default=False, help="Run with fixed timing traffic signals.\n")
         prs.add_argument("-s", dest="seconds", type=int, default=10000, required=False, help="Number of simulation seconds.\n")
         prs.add_argument("-r", dest="reward", type=str, default='wait', required=False, help="Reward function: [-r queue] for average queue reward or [-r wait] for waiting time reward.\n")
         prs.add_argument("-runs", dest="runs", type=int, default=1, help="Number of runs.\n")
         args = prs.parse_args()
     except BaseException:
-        print("args")
+        print(prs)
     experiment_time = str(datetime.now()).split('.')[0]
     out_csv = 'outputs/2way-single-intersection/a'
 
