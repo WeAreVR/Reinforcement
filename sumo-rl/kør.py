@@ -25,7 +25,7 @@ if __name__ == '__main__':
                                     out_csv_name='outputs/Data/dqn',
                                     single_agent=True,
                                     use_gui=True,
-                                    num_seconds=10000,
+                                    num_seconds=100000,
                                     max_depart_delay=0)
     
     nb_actions = env.action_space.n                                               
@@ -41,12 +41,12 @@ if __name__ == '__main__':
     model.add(Activation('linear'))                       
     print(model.summary())
 
-    memory = SequentialMemory(limit=10000, window_length=1)                       
+    memory = SequentialMemory(limit=100000, window_length=1)                       
     policy = BoltzmannQPolicy()  
     dqn = DQNAgent(model=model, nb_actions=nb_actions, memory=memory, nb_steps_warmup=10,                                      
         target_model_update=1e-2, policy=policy)  
     dqn.compile(Adam(lr=1e-3), metrics=['mae'])  
-    dqn.fit(env, nb_steps=10000, visualize=False, verbose=2)
+    dqn.fit(env, nb_steps=100000, visualize=False, verbose=2)
     dqn.save_weights('dqn_{}_weights.h5f'.format(ENV_NAME), overwrite=True)            
     dqn.test(env, nb_episodes=5, visualize=False)                
 
