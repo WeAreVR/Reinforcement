@@ -12,6 +12,7 @@ import traci
 from stable_baselines.common.policies import MlpPolicy
 from stable_baselines.common.vec_env import SubprocVecEnv
 from stable_baselines import A2C
+os.environ["KMP_DUPLICATE_LIB_OK"]="TRUE"
 
 
 if __name__ == '__main__':

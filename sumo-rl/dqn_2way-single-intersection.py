@@ -17,8 +17,8 @@ if __name__ == '__main__':
                                     route_file='nets/2way-single-intersection/single-intersection-vhvh.rou.xml',
                                     out_csv_name='outputs/2way-single-intersection/dqn',
                                     single_agent=True,
-                                    use_gui=False,
-                                    num_seconds=2,
+                                    use_gui=True,
+                                    num_seconds=80000,
                                     max_depart_delay=0)
 
     model = DQN(
@@ -27,9 +27,17 @@ if __name__ == '__main__':
         learning_rate=0.01,
         learning_starts=0,
         train_freq=1,
-        target_update_interval=100,
+        target_update_interval=80000,
         exploration_initial_eps=0.05,
         exploration_final_eps=0.01,
         verbose=1
     )
-    model.learn(total_timesteps=10)
+    model.learn(total_timesteps=80000)
+
+    obs = env.reset()
+    for i in range(80000):
+        action, _states = model.predict(obs, deterministic=True)
+        obs, reward, done, info = env.step(action)
+        #env.render()
+        if done:
+            obs = env.reset()
