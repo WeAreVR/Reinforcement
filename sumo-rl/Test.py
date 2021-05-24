@@ -63,8 +63,8 @@ DEFAULT_CONFIG = with_common_config({
         # The Exploration class to use.
         "type": "EpsilonGreedy",
         # Config for the Exploration class' constructor:
-        "initial_epsilon": 1.00,
-        "final_epsilon": 0.02,
+        "initial_epsilon": 0.0,
+        "final_epsilon": 0.00,
         "epsilon_timesteps": 10000,  # Timesteps over which to anneal epsilon.
     },
     # Switch to greedy actions in evaluation workers.
@@ -108,7 +108,7 @@ DEFAULT_CONFIG = with_common_config({
 
     # === Optimization ===
     # Learning rate for adam optimizer
-    "lr": 0.001,
+    "lr": 0.00,
     # Learning rate schedule
     "lr_schedule": None,
     # Adam epsilon hyper parameter
@@ -140,39 +140,38 @@ DEFAULT_CONFIG = with_common_config({
 # __sphinx_doc_end__
 # yapf: enable
 
-#python outputs/plot.py -f outputs/lang/train_run6 
+#python outputs/plot.py -f outputs/Done/doublerigtig 
 
 if __name__ == '__main__':
-    ray.init()
+    ray.init()  
 
 #register_env("multienv", lambda config: MultiEnv(config))
 
-    register_env("4x4grid", lambda _: SumoEnvironment(net_file='nets/2way-single-intersection/single-intersection.net.xml',
+    
+    '''                                               
+    env = SumoEnvironment(net_file='nets/2way-single-intersection/single-intersection.net.xml',
                                                     route_file='nets/2way-single-intersection/single-intersection-gen.rou.xml',
-                                                    out_csv_name='outputs/lang/lang2',
-                                                    use_gui=True,
-                                                    num_seconds=80000,
-                                                    yellow_time=4,
-                                                    min_green=5,
-                                                    max_green=120,
-                                                    max_depart_delay=300))
-    '''                                                
-    env = SumoEnvironment(SumoEnvironment(net_file='nets/double/network.net.xml',
-                                                    route_file='nets/double/flow.rou.xml',
-                                                    out_csv_name='outputs/Data/testt',
+                                                    out_csv_name='outputs/train/test',
                                                     use_gui=True,
                                                     num_seconds=5000,
                                                     yellow_time=4,
                                                     min_green=5,
                                                     max_green=300,
+                                                    max_depart_delay=300)
+    '''                                              
+    register_env("4x4grid", lambda _: SumoEnvironment(net_file='nets/2way-single-intersection/single-intersection.net.xml',
+                                                    route_file='nets/2way-single-intersection/single-intersection-gen.rou.xml',
+                                                    out_csv_name='outputs/Done/lang22',
+                                                    use_gui=False,
+                                                    num_seconds=80000,
+                                                    yellow_time=4,
+                                                    min_green=5,
+                                                    max_green=120,
                                                     max_depart_delay=300))
-    '''
-                                                    
                                                     
 
 
     start = time.time()
-    print("hello")
     i = 0
     trainer = DQNTrainer(config=DEFAULT_CONFIG, env="4x4grid")
     #trainer = DQNTrainer(env="4x4grid", config={
@@ -185,29 +184,32 @@ if __name__ == '__main__':
     #    "lr": 0.001,
     #    "no_done_at_end": True
     #    })
-    #trainer.restore("model/savedd/checkpoint_21/checkpoint-21")
+    trainer.restore("model/lang2/checkpoint_60/checkpoint-60")
     while True:
-        try:
-            i +=1
-            print(i)
-            print(i)
-            print(i)
-            print(i)
-            print(i)
-            print(i)
-            print(i)
-            if (i%1000 == 0):
-                trainer.save("model/lang2")
-                break
-            results = trainer.train()
-            print(results)  # distributed training step
-        except KeyboardInterrupt:
-            trainer.save("model/lang2")
+        i +=1
+        print(i)
+        print(i)
+        print(i)
+        print(i)
+        print(i)
+        print(i)
+        print(i)
+        if (i%26 == 0):
+            #trainer.save("model/saved")
+            break
+        results = trainer.train()
+        print(results)  # distributed training step
 
+    print("er vi her????") 
+   
     end = time.time()
     print(end - start)
-    print(results)
 
+    '''
+    prøv rllib rollout. ligner dog den giver kun total waittime for hele programmet og ikke over tid
+    https://github.com/ray-project/ray/blob/master/rllib/examples/custom_eval.py 
+    tune.run
+    '''
     #policy.model.base_model.summary()
     #Model: "model"
 
@@ -221,5 +223,3 @@ if __name__ == '__main__':
     #    action = trainer.compute_action(obs)
     #    obs, reward, done, info = env.step(action)
     #    episode_reward += reward
-    # kilder kan kan læses https://stackoverflow.com/questions/43221065/how-does-the-epsilon-hyperparameter-affect-tf-train-adamoptimizer
-    #

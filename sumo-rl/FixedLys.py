@@ -25,18 +25,18 @@ if __name__ == '__main__':
         prs.add_argument("-e", dest="epsilon", type=float, default=0.05, required=False, help="Epsilon.\n")
         prs.add_argument("-me", dest="min_epsilon", type=float, default=0.005, required=False, help="Minimum epsilon.\n")
         prs.add_argument("-d", dest="decay", type=float, default=1.0, required=False, help="Epsilon decay.\n")
-        prs.add_argument("-mingreen", dest="min_green", type=int, default=5, required=False, help="Minimum green time.\n")
-        prs.add_argument("-maxgreen", dest="max_green", type=int, default=60, required=False, help="Maximum green time.\n")
-        prs.add_argument("-gui", action="store_true", default=True, help="Run with visualization on SUMO.\n")
+        prs.add_argument("-mingreen", dest="min_green", type=int, default=1, required=False, help="Minimum green time.\n")
+        prs.add_argument("-maxgreen", dest="max_green", type=int, default=2, required=False, help="Maximum green time.\n")
+        prs.add_argument("-gui", action="store_true", default=False, help="Run with visualization on SUMO.\n")
         prs.add_argument("-fixed", action="store_true", default=True, help="Run with fixed timing traffic signals.\n")
-        prs.add_argument("-s", dest="seconds", type=int, default=100000, required=False, help="Number of simulation seconds.\n")
+        prs.add_argument("-s", dest="seconds", type=int, default=80000, required=False, help="Number of simulation seconds.\n")
         prs.add_argument("-r", dest="reward", type=str, default='wait', required=False, help="Reward function: [-r queue] for average queue reward or [-r wait] for waiting time reward.\n")
         prs.add_argument("-runs", dest="runs", type=int, default=1, help="Number of runs.\n")
         args = prs.parse_args()
     except BaseException:
         print(prs)
     experiment_time = str(datetime.now()).split('.')[0]
-    out_csv = 'outputs/Fixed/min_green_%s_max_green_%s' % (args.min_green,args.max_green)
+    out_csv = 'outputs/Fixed/min_greens_%s_max_greens_%s' % (args.min_green,args.max_green)
 
     env = SumoEnvironment(net_file='nets/2way-single-intersection/single-intersection.net.xml',
                           route_file=args.route,
@@ -72,7 +72,5 @@ if __name__ == '__main__':
                     ql_agents[agent_id].learn(next_state=env.encode(s[agent_id], agent_id), reward=r[agent_id])
         env.save_csv(out_csv, run)
         env.close()
-
-
 
 
