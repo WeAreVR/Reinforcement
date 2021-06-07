@@ -1,5 +1,4 @@
 import tensorflow as tf
-import argparse
 import os
 import sys
 if 'SUMO_HOME' in os.environ:
@@ -7,23 +6,25 @@ if 'SUMO_HOME' in os.environ:
     sys.path.append(tools)
 else:
     sys.exit("Please declare the environment variable 'SUMO_HOME'")
-import pandas as pd
 import ray
-import time
-
 from ray.rllib.agents.dqn.dqn import DQNTrainer
 from ray.rllib.agents.dqn.dqn_tf_policy import DQNTFPolicy
 from ray.rllib.agents.trainer import with_common_config
-
-from ray.rllib.agents.a3c.a3c_tf_policy import A3CTFPolicy
 from ray.tune.registry import register_env
-from gym import spaces
-import gym
-import numpy as np
 from sumo_rl import SumoEnvironment
 import traci
+import time
 
-import tensorflow as tf
+#SumoEnvironment is made by:
+#@misc{sumorl,
+#    author = {Lucas N. Alegre},
+#    title = {SUMO-RL},
+#    year = {2019},
+#    publisher = {GitHub},
+#    journal = {GitHub repository},
+#    howpublished = {\url{https://github.com/LucasAlegre/sumo-rl}},
+#}
+
 gpus = tf.config.experimental.list_physical_devices('GPU')
 if gpus:
     try:
@@ -137,14 +138,10 @@ DEFAULT_CONFIG = with_common_config({
     "no_done_at_end": True,
 
 })
-# __sphinx_doc_end__
-# yapf: enable
-
-#python outputs/plot.py -f outputs/lang/train_run6 
+#python outputs/plot.py -f outputs/Everything/train_run3 
 
 if __name__ == '__main__':
     ray.init()
-
 #register_env("multienv", lambda config: MultiEnv(config))
 
     register_env("4x4grid", lambda _: SumoEnvironment(net_file='nets/2way-single-intersection/single-intersection.net.xml',
@@ -155,71 +152,27 @@ if __name__ == '__main__':
                                                     yellow_time=4,
                                                     min_green=5,
                                                     max_green=120,
-                                                    max_depart_delay=300))
-    '''                                                
-    env = SumoEnvironment(SumoEnvironment(net_file='nets/double/network.net.xml',
-                                                    route_file='nets/double/flow.rou.xml',
-                                                    out_csv_name='outputs/Data/testt',
-                                                    use_gui=True,
-                                                    num_seconds=5000,
-                                                    yellow_time=4,
-                                                    min_green=5,
-                                                    max_green=300,
-                                                    max_depart_delay=300))
-    '''
-                                                    
+                                                    max_depart_delay=300))                                                 
                                                     
 
-
+    
     start = time.time()
-    print("hello")
     i = 0
     trainer = DQNTrainer(config=DEFAULT_CONFIG, env="4x4grid")
-    #trainer = DQNTrainer(env="4x4grid", config={
-    #    "multiagent": {
-    #        "policies": {
-    #            '0': (DQNTrainer, spaces.Box(low=np.zeros(10), high=np.ones(10)), spaces.Discrete(2), {})
-    #        },
-    #        "policy_mapping_fn": (lambda id: '0')  # Traffic lights are always controlled by this policy
-    #    },
-    #    "lr": 0.001,
-    #    "no_done_at_end": True
-    #    })
     #trainer.restore("model/savedd/checkpoint_21/checkpoint-21")
     while True:
         try:
             i +=1
             print(i)
-            print(i)
-            print(i)
-            print(i)
-            print(i)
-            print(i)
-            print(i)
-            if (i%1000 == 0):
-                trainer.save("model/lang2")
+            if (i%11 == 0):
+                #trainer.save("model/lang2")
                 break
             results = trainer.train()
             print(results)  # distributed training step
         except KeyboardInterrupt:
-            trainer.save("model/lang2")
-
+            print(i)
+            end = time.time()
+            print(end - start)
+            #trainer.save("model/lang2")
     end = time.time()
     print(end - start)
-    print(results)
-
-    #policy.model.base_model.summary()
-    #Model: "model"
-
-    # instantiate env class
-    
-    # run until episode ends
-    #obs = env.reset()
-    #episode_reward = 0
-    #done = False
-    #while not done:
-    #    action = trainer.compute_action(obs)
-    #    obs, reward, done, info = env.step(action)
-    #    episode_reward += reward
-    # kilder kan kan læses https://stackoverflow.com/questions/43221065/how-does-the-epsilon-hyperparameter-affect-tf-train-adamoptimizer
-    #
