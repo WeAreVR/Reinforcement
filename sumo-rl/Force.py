@@ -146,14 +146,14 @@ if __name__ == '__main__':
 
     register_env("4x4grid", lambda _: SumoEnvironment(net_file='nets/2way-single-intersection/single-intersection.net.xml',
                                                     route_file='nets/2way-single-intersection/single-intersection-gen.rou.xml',
-                                                    out_csv_name='outputs/lang/lang2',
+                                                    out_csv_name='outputs/Eksamen/Eksamen',
                                                     use_gui=True,
                                                     num_seconds=80000,
                                                     yellow_time=4,
                                                     min_green=5,
                                                     max_green=120,
                                                     max_depart_delay=300))                                                 
-                                                    
+                                                        
 
     
     start = time.time()
